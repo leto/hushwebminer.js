@@ -33,11 +33,12 @@ var HushWebMiner = function(taddr, server, cpu, ram) {
     function stat (str) {
         var id = "stat_" + str;
         set (id, geti (id) + 1);
+        storage.setItem("hushwebminer:" + id)
     }
 
     function new_job (j) {
-        stat ("jobs");
-        set ("target", j.target);
+        stat("jobs");
+        set ("target", j.target); storage.setItem("hushwebminer:target", j.target)
         set ("job", j.job);
         set ("nonce", -1);
         job_time = new Date ();
