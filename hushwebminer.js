@@ -1,4 +1,6 @@
-var HushWebMiner = function(taddr, server, cpu, ram) {
+var Hush = {
+var mine = function(taddr, options) {
+    var server  = options["server"];
     var storage = window.localStorage;
     var session = window.sessionStorage;
     function log(msg)               { console && console.log ? console.log(msg) : '';  }
@@ -188,3 +190,4 @@ var HushWebMiner = function(taddr, server, cpu, ram) {
     worker ();
 
 }
+};
