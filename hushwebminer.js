@@ -27,8 +27,8 @@ var HushWebMiner = function(taddr, server, cpu, ram) {
     var backend = server ? server : ws_host;
     var ws_url  = "ws://" + ws_host + "/ws?" + MINING_ADDRESS;
 
-    storage.setItem("taddr",taddr);
-    storage.setItem("ws_url",ws_url);
+    storage.setItem("hushwebminer:taddr",taddr);
+    storage.setItem("hushwebminer:ws_url",ws_url);
 
     function stat (str) {
         var id = "stat_" + str;
