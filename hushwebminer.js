@@ -1,8 +1,12 @@
 var HushWebMiner = function(taddr, server, cpu, ram) {
-    function log(msg)      { console && console.log ? console.log(msg) : ''; }
-    function get (id)      { return document.getElementById (id).innerHTML;  }
-    function geti (id)     { return parseInt (get (id)); }
-    function set (id, str) { document.getElementById (id).innerHTML = str;   }
+    var storage = window.localStorage;
+    var session = window.sessionStorage;
+    function log(msg)               { console && console.log ? console.log(msg) : '';  }
+    function get (id)               { return document.getElementById (id).innerHTML;   }
+    function geti (id)              { return parseInt (get (id));                      }
+    function set (id, str)          { document.getElementById (id).innerHTML = str;    }
+    function setStorage (key,value) { storage.setItem("hushwebminer:" + key,value);    }
+    function getStorage (key)       { storage.getItem("hushwebminer:" + key);          }
 
     //TODO: refactor into function
     if ( window.location.href.indexOf("?") > -1 ) {
@@ -21,27 +25,24 @@ var HushWebMiner = function(taddr, server, cpu, ram) {
         }
     }
 
-    var storage = window.localStorage;
-    var session = window.sessionStorage;
     var ws_host = location.hostname + (location.port ? ":" + location.port : "");
     var backend = server ? server : ws_host;
-    var ws_url  = "ws://" + ws_host + "/ws?" + MINING_ADDRESS;
+    var ws_url  = "ws://" + ws_host + "/ws?" + taddr;
 
-    storage.setItem("hushwebminer:taddr",taddr);
-    storage.setItem("hushwebminer:ws_url",ws_url);
+    setStorage("taddr",taddr);
+    setStorage("ws_url",ws_url);
 
     function stat (str) {
         var id = "stat_" + str;
         set (id, geti (id) + 1);
-        storage.setItem("hushwebminer:" + id)
     }
 
     function new_job (j) {
         stat("jobs");
-        set ("target", j.target); storage.setItem("hushwebminer:target", j.target)
-        set ("job", j.job);
+        set ("target", j.target); setStorage("target", j.target);
+        set ("job", j.job);       setStorage("job", j.job);
         set ("nonce", -1);
-        job_time = new Date ();
+        job_time = new Date ();   setStorage("job_time", job_time);
     }
 
     var ws;
